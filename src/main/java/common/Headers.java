@@ -1,0 +1,11 @@
+package common;
+
+public enum Headers {
+    SOURCE_INSTANCE,
+    DESTINATION_INSTANCE,
+    REPLY_TOPIC,
+    MESSAGE_ID,
+    CHAIN_AWAIT_TIMEOUT,
+    REQUEST_ID,
+    AWAIT_TIMEOUT
+}
