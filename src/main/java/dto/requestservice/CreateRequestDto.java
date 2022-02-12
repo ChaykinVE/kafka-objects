@@ -16,6 +16,9 @@ public class CreateRequestDto implements Message {
     @NotNull
     UUID requestId;
 
+    @NotNull
+    Long clientNum;
+
     @NotBlank
     String payload;
 }

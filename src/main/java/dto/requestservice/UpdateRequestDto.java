@@ -5,18 +5,20 @@ import common.Message;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Data
 @Accessors(fluent = true, chain = true)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class CreateRequestResponseDto implements Message {
+public class UpdateRequestDto implements Message {
     @NotNull
     UUID requestId;
 
     @NotNull
-    Boolean success;
+    Long clientNum;
 
-    Throwable error;
+    @NotBlank
+    String payload;
 }

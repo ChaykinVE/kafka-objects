@@ -11,9 +11,12 @@ import java.util.UUID;
 @Data
 @Accessors(fluent = true, chain = true)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class CreateRequestResponseDto implements Message {
+public class UpdateRequestResponseDto implements Message {
     @NotNull
     UUID requestId;
+
+    @NotNull
+    Long clientNum;
 
     @NotNull
     Boolean success;

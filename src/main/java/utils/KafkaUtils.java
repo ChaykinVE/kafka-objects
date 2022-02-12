@@ -34,9 +34,24 @@ public class KafkaUtils {
 
     public static ProducerRecord<String, Message> generateProducerRecord(String topic, String destination,
                                                                          DefaultKafkaConfig config, Message message) {
-        ProducerRecord<String, Message> producerRecord = new ProducerRecord<>(topic, message);
+        UUID messageId = UUID.randomUUID();
+        ProducerRecord<String, Message> producerRecord = new ProducerRecord<>(topic, messageId.toString(), message);
         producerRecord.headers().add(Headers.REQUEST_ID.name(), KafkaHelper.uuidToBytes(UUID.randomUUID()));
-        producerRecord.headers().add(Headers.REQUEST_ID.name(), KafkaHelper.uuidToBytes(UUID.randomUUID()));
+        producerRecord.headers().add(Headers.MESSAGE_ID.name(), KafkaHelper.uuidToBytes(messageId));
+        producerRecord.headers().add(Headers.DESTINATION_INSTANCE.name(), destination.getBytes(CHARSET));
+        producerRecord.headers().add(Headers.SOURCE_INSTANCE.name(),
+                config.getSpecificConsumer().getGroupId().getBytes(CHARSET));
+        producerRecord.headers().add(Headers.REPLY_TOPIC.name(),
+                config.getSpecificConsumer().getTopic().getBytes(CHARSET));
+        return producerRecord;
+    }
+
+    public static ProducerRecord<String, Message> generateProducerRecord(UUID requestId, String topic, String destination,
+                                                                         DefaultKafkaConfig config, Message message) {
+        UUID messageId = UUID.randomUUID();
+        ProducerRecord<String, Message> producerRecord = new ProducerRecord<>(topic, messageId.toString(), message);
+        producerRecord.headers().add(Headers.REQUEST_ID.name(), KafkaHelper.uuidToBytes(requestId));
+        producerRecord.headers().add(Headers.MESSAGE_ID.name(), KafkaHelper.uuidToBytes(messageId));
         producerRecord.headers().add(Headers.DESTINATION_INSTANCE.name(), destination.getBytes(CHARSET));
         producerRecord.headers().add(Headers.SOURCE_INSTANCE.name(),
                 config.getSpecificConsumer().getGroupId().getBytes(CHARSET));
